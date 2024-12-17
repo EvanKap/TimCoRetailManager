@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,6 +14,7 @@ namespace TRMDataManager.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
+            RequestContext.Principal.Identity.GetUserId();
             return new string[] { "value1", "value2" };
         }
 
@@ -23,8 +25,9 @@ namespace TRMDataManager.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]string value)
         {
+            return Ok();
         }
 
         // PUT api/values/5
