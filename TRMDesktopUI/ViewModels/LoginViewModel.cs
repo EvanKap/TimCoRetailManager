@@ -46,15 +46,38 @@ namespace TRMDesktopUI.ViewModels
 			}
 		}
 
+        public bool IsErrorVisible 
+		{ 
+			get 
+			{
+				return ErrorMessage?.Length > 0;
+			}
+		}
+
+        private string _errorMessage;
+
+		public string ErrorMessage
+		{
+			get { return _errorMessage; }
+			set 
+			{ 
+				_errorMessage = value; 
+				NotifyOfPropertyChange(()=> ErrorMessage);
+				NotifyOfPropertyChange(()=> IsErrorVisible);
+			}
+		}
+
+
 		public async Task LogIn()
 		{
 			try
 			{
+				ErrorMessage = string.Empty;
 				var response = await _apiHelper.Authenticate(UserName, Password);
 			}
 			catch (Exception e)
 			{
-				throw e;
+				ErrorMessage = e.Message;
 			}
 		}
     }
