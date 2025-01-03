@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using TRMDesktopUI.Helpers;
 using TRMDesktopUI.ViewModels;
 
 namespace TRMDesktopUI
@@ -21,9 +23,15 @@ namespace TRMDesktopUI
         {
             _container.Instance(_container.Instance(typeof(Bootstrapper)));
 
+            ConventionManager.AddElementConvention<PasswordBox>(
+                PasswordBoxHelper.BoundPasswordProperty,
+                "Password",
+                "PasswordChanged");
+
             _container.
                 Singleton<IWindowManager, WindowManager>().
-                Singleton<IEventAggregator, EventAggregator>();
+                Singleton<IEventAggregator, EventAggregator>().
+                Singleton<IAPIHelper, APIHelper>();
 
             GetType().Assembly.GetTypes().
                 Where(type => type.IsClass).Where(type => type.Name.EndsWith("ViewModel")).
